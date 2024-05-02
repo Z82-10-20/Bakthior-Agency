@@ -7,7 +7,7 @@
     "start": "concurrently \"npm run backend\" \"npm run frontend\"",
     "backend": "nodemon ./backend/server.js",
     "frontend": "cd frontend && npm start",
-    "build": "react-scripts build"
+    "build": "npm run build"
   },
   "dependencies": {
     "@emotion/styled": "^11.11.0",
