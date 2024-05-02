@@ -49,4 +49,8 @@ app.use((error, req, res, next) => {
   res.status(500).send('An unexpected error occurred');
 });
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/frontend/build')));
+}
+
 app.listen(port, () => console.log(`Server running on port ${port}`));
