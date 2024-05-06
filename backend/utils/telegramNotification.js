@@ -13,17 +13,11 @@ const chatId = process.env.TELEGRAM_CHAT_ID;
 const bot = new TelegramBot(token, { polling: true });
 
 bot.on('polling_error', (error) => {
-  console.error('Polling error:', error.code, error.message);
-  // Stop polling first to clear any existing requests
-  bot.stopPolling().then(() => {
-    // Start polling again after a delay
-    setTimeout(() => {
-      bot.startPolling(); // Retry polling (implement with caution to avoid infinite loops)
-    }, 10000); // Adjust delay as necessary
-  }).catch(stopError => {
-    console.error('Failed to stop polling:', stopError);
-    // Implement additional logic here if stopping polling fails
-  });
+  // console.error('Polling error:', error.code, error.message);
+  // Implement retry logic or handle the error appropriately
+  setTimeout(() => {
+    bot.startPolling(); // Retry polling (implement with caution to avoid infinite loops)
+  }, 10000); // Adjust delay as necessary
 });
 
 // Function to send a message to your Telegram
