@@ -22,7 +22,7 @@ const app = express ();
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 
 
