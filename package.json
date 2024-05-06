@@ -4,8 +4,8 @@
   "description": "MERN stack",
   "type": "module",
   "scripts": {
-    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "backend": "nodemon ./backend/server.js",
+   "start": "nodemon backend/server.js",  
+    "backend": "nodemon backend/server.js",
     "frontend": "cd frontend && npm start",
     "build": "echo 'No build step required'"
   },
