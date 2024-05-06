@@ -1,4 +1,3 @@
-const express = require('express')
 import express from 'express';
 import path from 'path';
 import connectDB from './config/mongodb.js';
