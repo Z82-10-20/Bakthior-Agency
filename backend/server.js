@@ -11,7 +11,7 @@ import contactRoutes from './routes/contactRoutes.js';
 
 dotenv.config();
 // console.log('Environment Variables:', process.env);
-connectDB();
+
 connectDB().then(() => {
   // console.log('Database connected successfully');
 }).catch(error => {
@@ -49,8 +49,6 @@ app.use((error, req, res, next) => {
   res.status(500).send('An unexpected error occurred');
 });
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '/frontend/build')));
-}
+
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
