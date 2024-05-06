@@ -41,9 +41,7 @@ app.use(cors()); // Enable CORS
 app.use(express.json());
 
 
-app.get('/', (req, res) => {
-  res.send('Server is running');
-});
+
 
 app.use('/api/contact', contactRoutes);
 // Example using Express and Mongoose
@@ -60,9 +58,9 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'))
   );
 } else {
-  app.get('/', (req, res) => {
-    res.send('API is running...');
-  });
+ app.get('/', (req, res) => {
+  res.send('Server is running');
+});
 }
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
