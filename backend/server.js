@@ -11,6 +11,7 @@ import contactRoutes from './routes/contactRoutes.js';
 
 dotenv.config();
 // console.log('Environment Variables:', process.env);
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 connectDB().then(() => {
   // console.log('Database connected successfully');
@@ -22,6 +23,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const port = process.env.PORT || 5000;
+
+
+
+
 app.use((req, res, next) => {
   // console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
   if (req.body && Object.keys(req.body).length) {
@@ -49,6 +54,15 @@ app.use((error, req, res, next) => {
   res.status(500).send('An unexpected error occurred');
 });
 
-
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'))
+  );
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running...');
+  });
+}
 
 app.listen(port, () => console.log(`Server running on port ${port}`));

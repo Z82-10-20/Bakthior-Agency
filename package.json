@@ -7,7 +7,8 @@
     "start": "node backend/server.js",
     "backend": "nodemon backend/server.js",
     "frontend": "cd frontend && npm start",
-    "build": "echo 'No build step required'"
+     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "build": "npm install && cd frontend && npm install && cd .."
   },
   "dependencies": {
     "@emotion/styled": "^11.11.0",
