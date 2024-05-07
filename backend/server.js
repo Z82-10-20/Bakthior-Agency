@@ -14,13 +14,12 @@ dotenv.config();
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 connectDB().then(() => {
-  // console.log('Database connected successfully');
+  console.log('Database connected successfully');
 }).catch(error => {
-  // console.error('Database connection failed:', error);
+  console.error('Database connection failed:', error);
 });
 const app = express ();
-app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+
 
 const port = process.env.PORT || 5000;
 
@@ -37,7 +36,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(cors()); // Enable CORS
+app.use(cors()); 
+app.use(express.urlencoded({ extended: true }));// Enable CORS
 app.use(express.json());
 
 
@@ -50,8 +50,12 @@ app.use('/api/contact', contactRoutes);
 // app.use('/api/flights', flightRoutes);
 
 app.use((error, req, res, next) => {
-  // console.error('Unhandled error:', error);
-  res.status(500).send('An unexpected error occurred');
+  const response = {
+    message: error.message,
+    ...(process.env.NODE_ENV === 'development' && { trace: error.stack })
+  };
+  console.error('Unhandled error:', error);
+  res.status(500).send(response);
 });
 
 if (process.env.NODE_ENV === 'production') {
