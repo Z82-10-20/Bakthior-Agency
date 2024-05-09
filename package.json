@@ -8,7 +8,7 @@
     "backend": "nodemon backend/server.js",
     "frontend": "cd frontend && npm start",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "build": "npm install && cd frontend && npm install && cd .."
+    "build": "npm install && cd frontend && npm install && npm run build && cd .."
   },
   "dependencies": {
     "@emotion/styled": "^11.11.0",
