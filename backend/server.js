@@ -24,7 +24,9 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 
-
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'C:\Users\zakfr\OneDrive\Desktop\dadajon\frontend\src\pages\Home.jsx'));
+});
 
 app.use('/api/contact', contactRoutes);
 
