@@ -4,7 +4,7 @@
   "description": "MERN stack",
   "type": "module",
   "scripts": {
-    "start": "node backend/server.js",
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
     "backend": "nodemon backend/server.js",
     "frontend": "cd frontend && npm start",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
