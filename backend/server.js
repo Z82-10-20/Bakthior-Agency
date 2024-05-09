@@ -19,32 +19,23 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
-
 app.use(cors());
 app.use(express.json());
 
-    app.get('/', (req, res) => {
-  res.send('Server is running');
-});
+// Serve static files from the frontend/build directory
+app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
-
+// Define API routes
 app.use('/api/contact', contactRoutes);
 
-app.use((error, req, res, next) => {
-  console.error('Unhandled error:', error);
-  res.status(500).send('An unexpected error occurred');
+// Serve the frontend index.html for all routes
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
 });
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '/frontend/build')));
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-  );
-}
-
 const port = process.env.PORT || 5001;
-// Start the server and handle the error
+
+// Start the server
 const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
@@ -54,8 +45,6 @@ server.on('error', (error) => {
     console.error(`Port ${port} is already in use.`);
     process.exit(1);
   } else {
-    app.get('/', (req, res) => {
-  res.send('Server is running');
-});
+    console.error('Unhandled error:', error);
   }
 });
