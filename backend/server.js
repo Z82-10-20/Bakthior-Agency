@@ -2,15 +2,11 @@ import express from 'express';
 import path from 'path';
 import connectDB from './config/mongodb.js';
 import dotenv from 'dotenv';
-// import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import contactRoutes from './routes/contactRoutes.js';
-// import flightRoutes from './routes/flightRoutes.js';
-
 
 dotenv.config();
-// console.log('Environment Variables:', process.env);
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 connectDB().then(() => {
@@ -18,44 +14,25 @@ connectDB().then(() => {
 }).catch(error => {
   console.error('Database connection failed:', error);
 });
-const app = express ();
+
+const app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 
-const port = process.env.PORT || 5000;
 
-
-
-
-app.use((req, res, next) => {
-  // console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
-  if (req.body && Object.keys(req.body).length) {
-    // console.log('Body:', req.body);
-  } else {
-    // console.log('No body or unsupported content type.');
-  }
-  next();
-});
-
-app.use(cors()); 
-app.use(express.urlencoded({ extended: true }));// Enable CORS
+app.use(cors());
 app.use(express.json());
-
 
 app.get('/', (req, res) => {
   res.send('Server is running');
 });
 
 app.use('/api/contact', contactRoutes);
-// Example using Express and Mongoose
-// app.use('/api/flights', flightRoutes);
 
 app.use((error, req, res, next) => {
-  const response = {
-    message: error.message,
-    ...(process.env.NODE_ENV === 'development' && { trace: error.stack })
-  };
   console.error('Unhandled error:', error);
-  res.status(500).send(response);
+  res.status(500).send('An unexpected error occurred');
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -65,4 +42,17 @@ if (process.env.NODE_ENV === 'production') {
   );
 }
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+const port = process.env.PORT || 5001;
+// Start the server and handle the error
+const server = app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
+server.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(`Port ${port} is already in use.`);
+    process.exit(1);
+  } else {
+    throw error;
+  }
+});
