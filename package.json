@@ -4,10 +4,9 @@
   "description": "MERN stack",
   "type": "module",
   "scripts": {
-    "start": "node backend/server.js",
-    "backend": "nodemon backend/server.js",
-    "frontend": "cd frontend && npm start",
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+     "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+  "backend": "node backend/server.js",
+  "frontend": "cd frontend && npm start",
     "build": "npm install && cd frontend && npm install && cd .."
   },
   "dependencies": {
