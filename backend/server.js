@@ -24,9 +24,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Server is running');
-});
+
 
 app.use('/api/contact', contactRoutes);
 
@@ -53,6 +51,8 @@ server.on('error', (error) => {
     console.error(`Port ${port} is already in use.`);
     process.exit(1);
   } else {
-    throw error;
+    app.get('/', (req, res) => {
+  res.send('Server is running');
+});
   }
 });
