@@ -23,8 +23,8 @@ app.use(express.json());
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const basePath = isDevelopment ? 
-    path.join(__dirname, 'C:\Users\zakfr\OneDrive\Desktop\dadajon\frontend\build\index.html') : // Adjust this path based on your local development structure
-    '/opt/render/frontend/build'; // This should be the absolute path on your production server
+    path.join(__dirname, '..', '..', '..', 'Users', 'zakfr', 'OneDrive', 'Desktop', 'dadajon', 'frontend', 'build') : 
+    '/opt/render/frontend/build';
 
 app.use(express.static(basePath));
 
@@ -36,7 +36,9 @@ app.use('/api/contact', contactRoutes);
 
 // Serve index.html for any other requests
 app.get('*', (req, res) => {
-  res.sendFile(path.join(basePath, 'index.html'));
+  const filePath = path.join(basePath, 'index.html');
+  console.log(`Attempting to serve: ${filePath}`);
+  res.sendFile(filePath);
 });
 
 app.use((error, req, res, next) => {
