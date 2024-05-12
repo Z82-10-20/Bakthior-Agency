@@ -37,6 +37,7 @@ app.use('/api/contact', contactRoutes);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../../frontend/build', 'index.html'));
 });
+console.log('Serving static files from:', path.join(__dirname, '../../../frontend/build'));
 
 app.use((error, req, res, next) => {
   console.error('Unhandled error:', error);
