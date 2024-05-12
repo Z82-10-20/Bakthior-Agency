@@ -18,32 +18,34 @@ connectDB().then(() => {
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
+app.use(express.json());
 
-const port = process.env.PORT || 5001;
+const isDevelopment = process.env.NODE_ENV !== 'production';
+const basePath = isDevelopment ? 
+    path.join(__dirname, '../../../frontend/build') : // Adjust this path based on your local development structure
+    '/opt/render/frontend/build'; // This should be the absolute path on your production server
+
+app.use(express.static(basePath));
 
 app.get('/', (req, res) => {
   res.send('Server is running');
 });
 
-app.use(cors());
-app.use(express.json());
-
-// Serve static files from the frontend build directory
-app.use(express.static(path.join(__dirname, '../../../frontend/build')));
-
 app.use('/api/contact', contactRoutes);
 
 // Serve index.html for any other requests
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../../frontend/build', 'index.html'));
+  res.sendFile(path.join(basePath, 'index.html'));
 });
-console.log('Serving static files from:', path.join(__dirname, '../../../frontend/build'));
 
 app.use((error, req, res, next) => {
   console.error('Unhandled error:', error);
   res.status(500).send('An unexpected error occurred');
 });
 
+const port = process.env.PORT || 5001;
 const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`);
+  console.log(`Serving static files from: ${basePath}`);
 });
