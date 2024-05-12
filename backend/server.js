@@ -30,8 +30,8 @@ app.use(express.json());
 app.use('/api/contact', contactRoutes);
 
 if (process.env.NODE_ENV === 'production') {
-  // Adjust the file path to match your local directory structure
-  const indexPath = path.resolve(__dirname, '../../../frontend/build', 'index.html');
+  const indexPath = path.join(__dirname, '../../../frontend/build/index.html');
+  console.log('Resolved file path:', indexPath); // Log the resolved file path
   
   app.get('*', (req, res) => {
     res.sendFile(indexPath);
