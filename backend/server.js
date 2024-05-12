@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import connectDB from './config/mongodb.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -37,8 +38,13 @@ app.use('/api/contact', contactRoutes);
 // Serve index.html for any other requests
 app.get('*', (req, res) => {
   const filePath = path.join(basePath, 'index.html');
-  console.log(`Attempting to serve: ${filePath}`);
-  res.sendFile(filePath);
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      console.error('File does not exist:', filePath);
+      return res.status(404).send('File not found');
+    }
+    res.sendFile(filePath);
+  });
 });
 
 app.use((error, req, res, next) => {
