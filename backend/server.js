@@ -24,19 +24,19 @@ const port = process.env.PORT || 5001;
 app.get('/', (req, res) => {
   res.send('Server is running');
 });
+
 app.use(cors());
 app.use(express.json());
 
-// Serve static assets
+// Serve static files from the frontend build directory
 app.use(express.static(path.join(__dirname, '../../../frontend/build')));
 
 app.use('/api/contact', contactRoutes);
 
-if (process.env.NODE_ENV === 'production') {
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../../frontend/build', 'index.html'));
-  });
-}
+// Serve index.html for any other requests
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../../frontend/build', 'index.html'));
+});
 
 app.use((error, req, res, next) => {
   console.error('Unhandled error:', error);
