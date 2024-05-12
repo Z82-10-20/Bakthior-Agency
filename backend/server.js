@@ -27,14 +27,14 @@ app.get('/', (req, res) => {
 app.use(cors());
 app.use(express.json());
 
+// Serve static assets
+app.use(express.static(path.join(__dirname, '../../../frontend/build')));
+
 app.use('/api/contact', contactRoutes);
 
 if (process.env.NODE_ENV === 'production') {
-  const indexPath = path.join(__dirname, '../../../frontend/build/index.html');
-  console.log('Resolved file path:', indexPath); // Log the resolved file path
-  
   app.get('*', (req, res) => {
-    res.sendFile(indexPath);
+    res.sendFile(path.join(__dirname, '../../../frontend/build', 'index.html'));
   });
 }
 
