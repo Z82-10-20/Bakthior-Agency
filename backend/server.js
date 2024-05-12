@@ -23,7 +23,7 @@ app.use(express.json());
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const basePath = isDevelopment ? 
-    path.join(__dirname, '../../../frontend/build') : // Adjust this path based on your local development structure
+    path.join(__dirname, 'C:\Users\zakfr\OneDrive\Desktop\dadajon\frontend\build\index.html') : // Adjust this path based on your local development structure
     '/opt/render/frontend/build'; // This should be the absolute path on your production server
 
 app.use(express.static(basePath));
