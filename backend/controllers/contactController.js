@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Contact from '../model/contact.js'; // Adjust the path as necessary
-import { sendMessageToTelegram } from '../utils/telegramNotification.js'; // Adjust the path as necessary
+// import { sendMessageToTelegram } from '../utils/telegramNotification.js'; // Adjust the path as necessary
 import { sendSmsNotification } from '../utils/smsNotification.js'; // Import the utility
 // Define the route handler
 
