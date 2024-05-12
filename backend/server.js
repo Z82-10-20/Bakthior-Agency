@@ -27,15 +27,26 @@ const basePath = isDevelopment ?
     path.join(__dirname, '..', '..', '..', 'Users', 'zakfr', 'OneDrive', 'Desktop', 'dadajon', 'frontend', 'build') : 
     '/opt/render/frontend/build';
 
+// Debugging to confirm directory contents at startup
+fs.readdir(basePath, (err, files) => {
+  if (err) {
+    console.error('Error accessing directory:', basePath, err);
+  } else {
+    console.log('Directory contents at startup:', files);
+  }
+});
+
 app.use(express.static(basePath));
 
+// Serve index.html at root
 app.get('/', (req, res) => {
-  res.send('Server is running');
+  const filePath = path.join(basePath, 'index.html');
+  res.sendFile(filePath);
 });
 
 app.use('/api/contact', contactRoutes);
 
-// Serve index.html for any other requests
+// Serve index.html for any other non-API requests
 app.get('*', (req, res) => {
   const filePath = path.join(basePath, 'index.html');
   fs.access(filePath, fs.constants.F_OK, (err) => {
