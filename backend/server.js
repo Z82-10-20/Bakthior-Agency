@@ -30,12 +30,13 @@ app.use(express.json());
 app.use('/api/contact', contactRoutes);
 
 if (process.env.NODE_ENV === 'production') {
+  // Adjust the file path to match your local directory structure
+  const indexPath = path.resolve(__dirname, '../../../frontend/build', 'index.html');
+  
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
+    res.sendFile(indexPath);
   });
 }
-
-
 
 app.use((error, req, res, next) => {
   console.error('Unhandled error:', error);
@@ -45,4 +46,3 @@ app.use((error, req, res, next) => {
 const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
